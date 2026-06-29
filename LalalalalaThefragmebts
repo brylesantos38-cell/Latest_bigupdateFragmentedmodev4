@@ -228,7 +228,7 @@ local function hookGuidingLightSounds()
             if desc:IsA("Folder") and (desc.Name == "Guidelight" or desc.Name == "GuidingLight") then
                 for _, snd in pairs(desc:GetDescendants()) do
                     if snd:IsA("Sound") then
-                        snd.SoundId = "https://raw.githubusercontent.com/brylesantos38-cell/New-GitHub-Guiding-light-sound-custom/refs/heads/main/Mmmmm"
+                        snd.SoundId = "https://pastebin.com/raw/tLrtSaHh"
                     end
                 end
             end
