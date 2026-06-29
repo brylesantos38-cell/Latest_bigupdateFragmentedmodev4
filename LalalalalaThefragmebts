@@ -296,7 +296,7 @@ local attackConfigs = {
     {interval = 230, url = "https://raw.githubusercontent.com/eoyoustme/Fragmentend-Reiginited/refs/heads/main/Revoker"},
     {interval = 240, url = "https://raw.githubusercontent.com/eoyoustme2/dm123/refs/heads/main/Fallacy"},
     {interval = 260, url = "https://raw.githubusercontent.com/eoyoustme2/dm123/refs/heads/main/Hallowen12"},
-    {interval = 250, url = "https://raw.githubusercontent.com/brylesantos38-cell/Full-fixed-rebound-with-cool-jumpscare-/refs/heads/main/Steal%20it%20or%20you%20become%20gay%20with%20a%20femboy%20as%20your%20girlfriend"},
+    {interval = 250, url = "https://raw.githubusercontent.com/brylesantos38-cell/Latest_bigupdateFragmentedmodev4/refs/heads/main/Hahq"},
     {interval = 280, url = "https://pastebin.com/raw/zaR3VA27"},
     {interval = 310, url = "https://raw.githubusercontent.com/talales/Nhankg.-/refs/heads/main/intro%20fragmented"},
     {interval = 330, url = "https://raw.githubusercontent.com/talales/Nhankg_/refs/heads/main/intro%20fragmented"},
@@ -323,7 +323,7 @@ task.spawn(function()
     local cmd_map = {
         {"Dread", "https://raw.githubusercontent.com/eoyoustme/Fragmentend-Reiginited/refs/heads/main/Dread"},
         {"Hunger", "https://raw.githubusercontent.com/eoyoustme/Fragmentend-Reiginited/refs/heads/main/Hungered"},
-        {"Rebound", "https://raw.githubusercontent.com/brylesantos38-cell/Full-fixed-rebound-with-cool-jumpscare-/refs/heads/main/Steal%20it%20or%20you%20become%20gay%20with%20a%20femboy%20as%20your%20girlfriend"},
+        {"Rebound", "https://raw.githubusercontent.com/brylesantos38-cell/Latest_bigupdateFragmentedmodev4/refs/heads/main/Hahq"},
         {"Disturbance", "https://raw.githubusercontent.com/eoyoustme/Fragmentend-Reiginited/refs/heads/main/Disturbance"},
         {"Daze", "https://raw.githubusercontent.com/eoyoustme/Fragmentend-Reiginited/refs/heads/main/Daze"},
         {"Draft1", "https://raw.githubusercontent.com/eoyoustme/ohh/refs/heads/main/Draft1"},
