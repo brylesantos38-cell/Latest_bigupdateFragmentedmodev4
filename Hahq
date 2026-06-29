@@ -1,0 +1,289 @@
+---====== Initialize ======---
+
+local gameData = game.ReplicatedStorage:WaitForChild("GameData")
+local latestRoom = gameData:WaitForChild("LatestRoom")
+
+local spawnCount = 0
+local maxSpawn = math.random(6, 7) 
+
+
+---====== Core Functions ======---
+
+local function SpawnEntity()
+	spawnCount = spawnCount + 1
+	print("Spawning Rebound! Current spawn count: " .. spawnCount .. " of " .. maxSpawn)
+
+	local TweenService = game:GetService("TweenService")
+
+	---====== Helper Audio Functions ======---
+
+	local function GetGitSound(GithubSnd, SoundName)
+		local url = GithubSnd
+		if not isfile(SoundName .. ".mp3") then
+			writefile(SoundName .. ".mp3", game:HttpGet(url))
+		end
+		local sound = Instance.new("Sound")
+		sound.SoundId = (getcustomasset or getsynasset)(SoundName .. ".mp3")
+		return sound
+	end
+
+	---====== Intro Warning (First Spawn Only) ======---
+
+	if spawnCount == 1 then
+		local Reboundcolor = Instance.new("ColorCorrectionEffect", game.Lighting) 
+		game.Debris:AddItem(Reboundcolor, 24)
+		Reboundcolor.Name = "Warn"
+		Reboundcolor.TintColor = Color3.fromRGB(65, 138, 255) 
+		Reboundcolor.Saturation = -0.7 
+		Reboundcolor.Contrast = 0.2
+
+		TweenService:Create(Reboundcolor, TweenInfo.new(15), {TintColor = Color3.fromRGB(255, 255, 255), Saturation = 0, Contrast = 0}):Play()
+		local TW = TweenService:Create(game.Lighting.MainColorCorrection, TweenInfo.new(5), {TintColor = Color3.fromRGB(255, 255, 255)})
+		TW:Play()
+
+		local cue1 = Instance.new("Sound")
+		cue1.Parent = game.Workspace
+		cue1.Name = "Scream"
+		cue1.SoundId = ""
+		
+		local distort = Instance.new("DistortionSoundEffect")
+		distort.Parent = cue1
+		distort.Level = 1
+		
+		local distort2 = Instance.new("DistortionSoundEffect")
+		distort2.Parent = cue1
+		distort2.Level = 1
+		
+		local pitch = Instance.new("PitchShiftSoundEffect")
+		pitch.Parent = cue1
+		pitch.Octave = 0.5
+		
+		local pitch2 = Instance.new("PitchShiftSoundEffect")
+		pitch2.Parent = cue1
+		pitch2.Octave = 0.5
+		
+		local pitch3 = Instance.new("PitchShiftSoundEffect")
+		pitch3.Parent = cue1
+		pitch3.Octave = 0.5
+		
+		cue1.Volume = 0.1
+		cue1:Play()
+
+		-- FIX: Changed to raw.githubusercontent.com link so HttpGet downloads actual audio data
+		local cue2 = GetGitSound("https://github.com/brylesantos38-cell/Rebound-New-sound-fahhhh/blob/main/ReboundWarningFragmentMode.mp3", "ReboundWarning")
+		cue2.Parent = game.Workspace
+		cue2.Name = "Spawn"
+		cue2.Volume = 2
+		cue2.TimePosition = 0
+		cue2.PlaybackSpeed = 1
+		cue2:Play()
+
+		local CameraShaker = require(game.ReplicatedStorage.CameraShaker)
+		local camara = game.Workspace.CurrentCamera
+		local camShake = CameraShaker.new(Enum.RenderPriority.Camera.Value, function(shakeCf)
+			camara.CFrame = camara.CFrame * shakeCf
+		end)
+		
+		camShake:Start()
+		camShake:ShakeOnce(10, 3, 0.1, 6, 2, 0.5)
+		
+		task.wait(4)
+	end
+
+	local scare = Instance.new("Sound")
+	scare.Parent = game.Workspace
+	scare.Name = "MyEarsBurn"
+	scare.SoundId = "rbxassetid://5567523008"
+	scare.PlaybackSpeed = 3
+	scare.Volume = 1
+
+	local shift = Instance.new("PitchShiftSoundEffect")
+	shift.Octave = 0.5
+	shift.Parent = scare
+
+	local distort3 = Instance.new("DistortionSoundEffect")
+	distort3.Parent = scare
+	distort3.Level = 1
+
+	local spookee = TweenService:Create(scare, TweenInfo.new(0.3), {Volume = 0})
+
+	---====== Load spawner ======---
+
+	local Spawner = loadstring(game:HttpGet("https://raw.githubusercontent.com/RegularVynixu/DOORS-Entity-Spawner-V2/main/init.luau"))()
+
+	---====== Create entity ======---
+
+	local entity = Spawner:Create({
+		Entity = {
+			Name = "Rebound",
+			Asset = "https://github.com/eoyoustme/Extremely/blob/main/Rebound%20Fragment.rbxm?raw=true",
+			HeightOffset = 0
+		},
+		Lights = {
+			Flicker = { 
+				Enabled = false, 
+				Duration = 1 
+			},
+			Shatter = false,
+			Repair = false
+		},
+		Earthquake = { 
+			Enabled = false 
+		},
+		CameraShake = {
+			Enabled = true,
+			Range = 100,
+			Values = {7.5, 15, 0.1, 2}
+		},
+		Movement = {
+			Speed = 60,
+			Delay = 8,
+			Reversed = true
+		},
+		Rebounding = {
+			Enabled = false,
+			Type = "Ambush", 
+			Min = 1,
+			Max = 1,
+			Delay = 2
+		},
+		Damage = {
+			Enabled = true,
+			Range = 40,
+			Amount = 125
+		},
+		Crucifixion = {
+			Enabled = true,
+			Range = 40,
+			Resist = false,
+			Break = true
+		},
+		Death = {
+			Type = "Guiding",
+			Hints = {"You died to rebound.....", "he's a lot different from now", "He comes back at the next door....", "hide quickly"},
+			Cause = "rebound"
+		}
+	})
+
+	---====== Debug entity ======---
+
+	entity:SetCallback("OnSpawned", function()
+		print("Entity has spawned")
+
+		local bruh = workspace:WaitForChild("Rebound", 10):WaitForChild("RushNew", 10)
+		if not bruh then return end
+
+		local sound = Instance.new("Sound")
+		sound.SoundId = "rbxassetid://6734393210"
+		sound.Volume = 3
+		sound.Parent = workspace
+		sound:Play()
+		
+		local ids = Instance.new("DistortionSoundEffect")
+		ids.Level = 0.65
+		ids.Parent = sound
+		
+		local revers = Instance.new("ReverbSoundEffect")
+		revers.DecayTime = 1.5
+		revers.Density = 1
+		revers.Diffusion = 1
+		revers.DryLevel = -6
+		revers.Parent = sound
+		
+		local sound1 = Instance.new("Sound")
+		sound1.SoundId = "rbxassetid://5246103002"
+		sound1.Volume = 3
+		sound1.Parent = workspace
+		sound1:Play()
+
+		local ids1 = Instance.new("DistortionSoundEffect")
+		ids1.Level = 0.65
+		ids1.Parent = sound1
+
+		local revers1 = Instance.new("ReverbSoundEffect")
+		revers1.DecayTime = 1.5
+		revers1.Density = 1
+		revers1.Diffusion = 1
+		revers1.DryLevel = -6
+		revers1.Parent = sound1
+		
+		local pitch4 = Instance.new("PitchShiftSoundEffect")
+		pitch4.Octave = 0.5
+		pitch4.Parent = sound1
+
+		task.wait(2.5)
+		
+		local sound3 = Instance.new("Sound")
+		sound3.SoundId = "rbxassetid://139319051979882"
+		sound3.Volume = 5
+		sound3.Parent = workspace
+		sound3:Play()
+
+		local revers2 = Instance.new("ReverbSoundEffect")
+		revers2.DecayTime = 1.5
+		revers2.Density = 1
+		revers2.Diffusion = 1
+		revers2.DryLevel = -6
+		revers2.Parent = sound
+		
+		task.wait(1.8)
+		
+		-- FIX: Changed to raw.githubusercontent.com link
+		local move = GetGitSound("https://github.com/brylesantos38-cell/Rebound-New-sound-fahhhh/blob/main/ReboundMovingBetterFahhgment.mp3", "ReboundMoving")
+		move.Parent = bruh
+		move.Name = "ReboundMoving"
+		move.Volume = 1
+		move.Looped = false
+		
+		-- FIX: Define Rolloff limits BEFORE playing so Roblox processes 3D space correctly
+		move.RollOffMaxDistance = 500 -- Increased so you hear it from further rooms
+		move.RollOffMinDistance = 20
+		move.RollOffMode = Enum.RollOffMode.Linear
+		
+		local vroom = TweenService:Create(move, TweenInfo.new(2), {Volume = 1.5}) -- FIX: Increased max volume target from 0.2 to 1.5
+		local distort4 = Instance.new("DistortionSoundEffect")
+		distort4.Level = 0.75
+		distort4.Parent = move
+		
+		local tree = Instance.new("TremoloSoundEffect")
+		tree.Depth = 1
+		tree.Duty = 1
+		tree.Frequency = 5
+		tree.Parent = move
+		
+		local eq = Instance.new("EqualizerSoundEffect")
+		eq.HighGain = -10 -- FIX: Changed from -60 to -10 so it isn't entirely muffled/silent
+		eq.MidGain = 10
+		eq.LowGain = 10
+		eq.Parent = move
+		
+		task.wait(1)
+		move:Play()
+		vroom:Play()
+	end)
+
+	entity:SetCallback("OnDamagePlayer", function(newHealth: number)
+		if newHealth <= 0 then
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/brylesantos38-cell/Fragmented-rebound-jumpscare/refs/heads/main/Steal%20this%20or%20gay"))()
+		end
+	end)
+
+	---====== Run entity ======---
+
+	entity:Run()
+end
+
+
+---====== Connections ======---
+
+latestRoom.Changed:Connect(function()
+	if spawnCount < maxSpawn then
+		task.wait(1)
+		SpawnEntity()
+	end
+end)
+
+
+---====== Start Chain ======---
+
+SpawnEntity()
